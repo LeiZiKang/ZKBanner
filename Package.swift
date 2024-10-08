@@ -11,11 +11,20 @@ let package = Package(
             name: "ZKBanner",
             targets: ["ZKBanner"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
+        .package(url: "https://github.com/SDWebImage/SDWebImage.git", .upToNextMajor(from: "5.1.0"))
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "ZKBanner"),
+            name: "ZKBanner",
+            dependencies: [
+                .product(name: "SnapKit", package: "SnapKit"),
+                .product(name: "SDWebImage", package: "SDWebImage")
+            ]
+        ),
 
     ]
 )
