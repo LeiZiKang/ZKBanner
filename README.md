@@ -1,6 +1,8 @@
 #  ZKBanner
 
 一个采用UIPageViewController实现的轮播横幅（Banner）
+![RocketSim_Recording_iPhone_16_Pro_6 3_2024-10-09_03 56 44](https://github.com/user-attachments/assets/f5d6717f-5fa7-4246-b2bf-3846922a2d59)
+
 
 ## 功能
 1. 页面内容可以自定义：可以是图片轮播,也可以是其他view;
