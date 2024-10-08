@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             ZKBannerView(isAutoPlayOn: $isOn)
-                .frame(width:screenW, height: 250)
+                .frame(width:screenW, height: 550)
                 .padding()
             
             Toggle("自动播放", isOn: $isOn)
@@ -38,11 +38,13 @@ struct ZKBannerView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: BannerVC, context: Context) {
-//        if isAutoPlayOn {
-//            uiViewController.banner1.openAuto()
-//        } else {
-//            uiViewController.banner1.closeAuto()
-//        }
+        if isAutoPlayOn {
+            uiViewController.banner1.openAuto()
+            uiViewController.banner2.openAuto()
+        } else {
+            uiViewController.banner1.closeAuto()
+            uiViewController.banner2.closeAuto()
+        }
     }
 }
 
@@ -54,15 +56,25 @@ class BannerVC: UIViewController {
     var banner2: ZKBanner!
     
     override func viewDidLoad() {
-//        setBanner1()
+        setBanner1()
         setBanner2()
     }
     
     func setBanner1() {
+        let label1 = UILabel()
+        label1.text = "图片轮播"
+        view.addSubview(label1)
+        label1.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.height.equalTo(40)
+            make.width.equalTo(100)
+            make.left.equalToSuperview()
+        }
         banner1 = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
         view.addSubview(banner1)
         banner1.snp.makeConstraints { make in
-            make.top.centerX.width.equalToSuperview()
+            make.top.equalTo(label1.snp.bottom).offset(10)
+            make.centerX.width.equalToSuperview()
             make.height.equalTo(200)
         }
         
@@ -82,13 +94,24 @@ class BannerVC: UIViewController {
         banner1.initImages(with: arr) { index in
             print("点击了\(index)页")
         }
+        banner1.openAuto()
     }
     
     func setBanner2() {
+        let label2 = UILabel()
+        label2.text = "自定义View轮播"
+        view.addSubview(label2)
+        label2.snp.makeConstraints { make in
+            make.top.equalTo(banner1.snp.bottom).offset(20)
+            make.height.equalTo(40)
+            make.width.equalTo(200)
+            make.left.equalToSuperview()
+        }
         banner2 = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
         view.addSubview(banner2)
         banner2.snp.makeConstraints { make in
-            make.top.centerX.width.equalToSuperview()
+            make.top.equalTo(label2.snp.bottom).offset(10)
+            make.centerX.width.equalToSuperview()
             make.height.equalTo(200)
         }
         
@@ -114,7 +137,7 @@ class BannerVC: UIViewController {
         banner2.initCusViews(with: arr) { index in
             
         }
-        banner2.openAuto()
+//        banner2.openAuto()
     }
     
 }

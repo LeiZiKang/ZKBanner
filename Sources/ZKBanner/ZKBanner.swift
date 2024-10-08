@@ -85,6 +85,9 @@ public class ZKBanner: UIView{
             
             setListener(for: imageView, at: index)
         }
+        if let vc = pageControllerAtIndex(index: tagIndex) {
+            pageCon.setViewControllers([vc], direction: .reverse, animated: true)
+        }
     }
     
     /// 轮播自定义视图
@@ -102,6 +105,10 @@ public class ZKBanner: UIView{
             controlls.append(controller)
             
             setListener(for: cusView, at: index)
+        }
+        
+        if let vc = pageControllerAtIndex(index: tagIndex) {
+            pageCon.setViewControllers([vc], direction: .reverse, animated: true)
         }
     }
     
@@ -124,6 +131,7 @@ public class ZKBanner: UIView{
 
 
 extension ZKBanner: UIPageViewControllerDelegate {
+    
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         guard let index = controlls.firstIndex(of: pageViewController.viewControllers!.first!) else { return }
@@ -152,7 +160,7 @@ extension ZKBanner: UIPageViewControllerDelegate {
                   
                   weakSelf.indicator.currentPage = weakSelf.tagIndex
                   if let vc = weakSelf.pageControllerAtIndex(index: weakSelf.tagIndex) {
-                      weakSelf.pageCon.setViewControllers([vc], direction: .reverse, animated: true)
+                      weakSelf.pageCon.setViewControllers([vc], direction: .forward, animated: true)
                   }
                   
               }
