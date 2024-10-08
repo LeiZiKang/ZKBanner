@@ -11,7 +11,7 @@ public class ZKBanner: UIView{
     
     var pageCon: UIPageViewController
     
-    // 页面指示器
+    /// 页面指示器
     public var indicator: UIPageControl
     
     var imageArr: Array<String>
@@ -26,6 +26,9 @@ public class ZKBanner: UIView{
     
     var isAuto: Bool
     
+    /// 循环时间
+    public var loop: Double
+    
     public override init(frame: CGRect) {
         controlls = []
         
@@ -36,6 +39,7 @@ public class ZKBanner: UIView{
         indicator = UIPageControl.init()
         imageArr = []
         isAuto = false
+        loop = 5
         super.init(frame: frame)
         self.initView()
     }
@@ -115,7 +119,7 @@ extension ZKBanner: UIPageViewControllerDelegate {
     public func openAuto() {
         isAuto = true
           
-          timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: loop, repeats: true) { [weak self] _ in
               DispatchQueue.main.async {
                   guard let weakSelf = self else { return }
                   weakSelf.tagIndex += 1

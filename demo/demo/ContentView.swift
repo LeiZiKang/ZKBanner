@@ -7,24 +7,53 @@
 
 import SwiftUI
 import ZKBanner
+import ZKCompoments
 
 struct ContentView: View {
+    @State var isOn: Bool = false
     var body: some View {
-        ZKBannerView()
-            .padding()
+        VStack {
+            ZKBannerView(isAutoPlayOn: $isOn)
+                .frame(width:screenW, height: 250)
+                .padding()
+            
+                Toggle("自动播放", isOn: $isOn)
+                .frame(width: 200, height: 20)
+            
+            
+            Spacer()
+        }
     }
 }
 
 struct ZKBannerView: UIViewControllerRepresentable {
+    @Binding var isAutoPlayOn: Bool
     
-    typealias UIViewControllerType = UIViewController
+    typealias UIViewControllerType = BannerVC
     
-    func makeUIViewController(context: Context) -> UIViewController {
+    func makeUIViewController(context: Context) -> BannerVC {
         
-        let vc = UIViewController()
-        // 需要先给定一个基准frame，否则使用Snapkit的话无法准确渲染图片（因为Snapkit布局时可能图片已经加载了）
-        let banner = ZKBanner(frame: CGRectMake(0, 0, vc.view.bounds.size.width, 200))
-        vc.view.addSubview(banner)
+        let vc = BannerVC()
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: BannerVC, context: Context) {
+        if isAutoPlayOn {
+            uiViewController.banner.openAuto()
+        } else {
+            uiViewController.banner.closeAuto()
+        }
+    }
+}
+
+class BannerVC: UIViewController {
+    
+    // 需要先给定一个基准frame，否则使用Snapkit的话无法准确渲染图片（因为Snapkit布局时可能图片已经加载了）
+    var banner: ZKBanner!
+    
+    override func viewDidLoad() {
+        banner = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
+        view.addSubview(banner)
         banner.snp.makeConstraints { make in
             make.top.centerX.width.equalToSuperview()
             make.height.equalTo(200)
@@ -46,16 +75,9 @@ struct ZKBannerView: UIViewControllerRepresentable {
         banner.initData(arr: arr) { index in
             print("点击了\(index)页")
         }
-        banner.openAuto()
-        
-        
-        
-        return vc
+//        banner.openAuto()
     }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
-    }
+
 }
 
 #Preview {
