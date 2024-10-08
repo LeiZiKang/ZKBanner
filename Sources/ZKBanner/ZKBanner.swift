@@ -111,7 +111,7 @@ extension ZKBanner: UIPageViewControllerDelegate {
         closeAuto()
     }
     
-    func openAuto() {
+    public func openAuto() {
         isAuto = true
           
           timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
@@ -131,7 +131,7 @@ extension ZKBanner: UIPageViewControllerDelegate {
           }
     }
     
-    func closeAuto() {
+    public func closeAuto() {
         if let timer = timer {
                 isAuto = false
                 timer.invalidate()
