@@ -50,7 +50,6 @@ struct ZKBannerView: UIViewControllerRepresentable {
 
 class BannerVC: UIViewController {
     
-    // 需要先给定一个基准frame，否则使用Snapkit的话无法准确渲染图片（因为Snapkit布局时可能图片已经加载了）
     var banner1: ZKBanner!
     
     var banner2: ZKBanner!
@@ -70,6 +69,7 @@ class BannerVC: UIViewController {
             make.width.equalTo(100)
             make.left.equalToSuperview()
         }
+        // 需要先给定一个基准frame，否则使用Snapkit的话无法准确渲染图片（因为Snapkit布局时可能图片已经加载了）
         banner1 = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
         view.addSubview(banner1)
         banner1.snp.makeConstraints { make in
@@ -83,7 +83,7 @@ class BannerVC: UIViewController {
             make.bottom.equalToSuperview().offset(8)
         }
         
-        let arr = [
+        let images = [
             "https://images.unsplash.com/photo-1720048171596-6a7c81662434?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             "https://img0.baidu.com/it/u=597753977,1250737874&fm=253&fmt=auto&app=120&f=JPEG?w=801&h=500",
             "https://img1.baidu.com/it/u=1795072984,4227544674&fm=253&fmt=auto&app=120&f=JPEG?w=654&h=363",
@@ -91,7 +91,7 @@ class BannerVC: UIViewController {
         ]
         
         banner1.backgroundColor = .gray
-        banner1.initImages(with: arr) { index in
+        banner1.initImages(with: images) { index in
             print("点击了\(index)页")
         }
         banner1.openAuto()
@@ -137,7 +137,6 @@ class BannerVC: UIViewController {
         banner2.initCusViews(with: arr) { index in
             
         }
-//        banner2.openAuto()
     }
     
 }
