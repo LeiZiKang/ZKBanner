@@ -29,6 +29,12 @@ struct ZKBannerView: UIViewControllerRepresentable {
             make.top.centerX.width.equalToSuperview()
             make.height.equalTo(200)
         }
+        
+        // 可以对指示器进行重新布局
+        banner.indicator.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(8)
+        }
+        
         let arr = [
             "https://images.unsplash.com/photo-1720048171596-6a7c81662434?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             "https://img0.baidu.com/it/u=597753977,1250737874&fm=253&fmt=auto&app=120&f=JPEG?w=801&h=500",
@@ -41,6 +47,7 @@ struct ZKBannerView: UIViewControllerRepresentable {
             print("点击了\(index)页")
         }
         banner.openAuto()
+        
         
         
         return vc

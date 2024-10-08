@@ -11,7 +11,8 @@ public class ZKBanner: UIView{
     
     var pageCon: UIPageViewController
     
-    var indicator: UIPageControl
+    // 页面指示器
+    public var indicator: UIPageControl
     
     var imageArr: Array<String>
     
