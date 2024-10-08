@@ -17,7 +17,7 @@ struct ContentView: View {
                 .frame(width:screenW, height: 250)
                 .padding()
             
-                Toggle("自动播放", isOn: $isOn)
+            Toggle("自动播放", isOn: $isOn)
                 .frame(width: 200, height: 20)
             
             
@@ -38,29 +38,36 @@ struct ZKBannerView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: BannerVC, context: Context) {
-        if isAutoPlayOn {
-            uiViewController.banner.openAuto()
-        } else {
-            uiViewController.banner.closeAuto()
-        }
+//        if isAutoPlayOn {
+//            uiViewController.banner1.openAuto()
+//        } else {
+//            uiViewController.banner1.closeAuto()
+//        }
     }
 }
 
 class BannerVC: UIViewController {
     
     // 需要先给定一个基准frame，否则使用Snapkit的话无法准确渲染图片（因为Snapkit布局时可能图片已经加载了）
-    var banner: ZKBanner!
+    var banner1: ZKBanner!
+    
+    var banner2: ZKBanner!
     
     override func viewDidLoad() {
-        banner = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
-        view.addSubview(banner)
-        banner.snp.makeConstraints { make in
+//        setBanner1()
+        setBanner2()
+    }
+    
+    func setBanner1() {
+        banner1 = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
+        view.addSubview(banner1)
+        banner1.snp.makeConstraints { make in
             make.top.centerX.width.equalToSuperview()
             make.height.equalTo(200)
         }
         
         // 可以对指示器进行重新布局
-        banner.indicator.snp.updateConstraints { make in
+        banner1.indicator.snp.updateConstraints { make in
             make.bottom.equalToSuperview().offset(8)
         }
         
@@ -71,13 +78,45 @@ class BannerVC: UIViewController {
             "https://i2.hdslb.com/bfs/archive/b4c0c3907e1f64c2de50edb35a7524d3af48e0f8.jpg"
         ]
         
-        banner.backgroundColor = .gray
-        banner.initData(arr: arr) { index in
+        banner1.backgroundColor = .gray
+        banner1.initImages(with: arr) { index in
             print("点击了\(index)页")
         }
-//        banner.openAuto()
     }
-
+    
+    func setBanner2() {
+        banner2 = ZKBanner(frame: CGRectMake(0, 0, self.view.bounds.size.width, 200))
+        view.addSubview(banner2)
+        banner2.snp.makeConstraints { make in
+            make.top.centerX.width.equalToSuperview()
+            make.height.equalTo(200)
+        }
+        
+        // 可以对指示器进行重新布局
+        banner2.indicator.snp.updateConstraints { make in
+            make.bottom.equalToSuperview().offset(8)
+        }
+        
+        let view1 = UIView()
+        view1.backgroundColor = .red
+        let view2 = UIView()
+        view2.backgroundColor = .black
+        let view3 = UIView()
+        view3.backgroundColor = .brown
+        let view4 = UIView()
+        view4.backgroundColor = .cyan
+        let view5 = UIView()
+        view5.backgroundColor = .green
+        let arr = [ view1, view2, view3, view4, view5
+        ]
+        
+        banner2.backgroundColor = .gray
+        banner2.initCusViews(with: arr) { index in
+            
+        }
+        banner2.openAuto()
+    }
+    
 }
 
 #Preview {

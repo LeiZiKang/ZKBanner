@@ -14,6 +14,8 @@ public class ZKBanner: UIView{
     /// 页面指示器
     public var indicator: UIPageControl
     
+    var dataSource: Int
+    
     var imageArr: Array<String>
     
     var controlls: [UIViewController]
@@ -38,6 +40,7 @@ public class ZKBanner: UIView{
        
         indicator = UIPageControl.init()
         imageArr = []
+        dataSource = 0
         isAuto = false
         loop = 5
         super.init(frame: frame)
@@ -63,11 +66,13 @@ public class ZKBanner: UIView{
         
     }
     
-    public func initData(arr: Array<String>, block: @escaping BannerResult) {
+    ///  轮播图片
+    public func initImages(with arr: Array<String>, block: @escaping BannerResult) {
         self.isAuto = false
         self.block = block
         self.imageArr = arr
-        self.indicator.numberOfPages = imageArr.count
+        self.dataSource = arr.count
+        self.indicator.numberOfPages = dataSource
         
         imageArr.enumerated().forEach { index, obj in
             let controller = UIViewController()
@@ -79,6 +84,24 @@ public class ZKBanner: UIView{
             controlls.append(controller)
             
             setListener(for: imageView, at: index)
+        }
+    }
+    
+    /// 轮播自定义视图
+    public func initCusViews(with arr: Array<UIView>, block: @escaping BannerResult) {
+        self.isAuto = false
+        self.block = block
+        self.dataSource = arr.count
+        self.indicator.numberOfPages = dataSource
+        
+        arr.enumerated().forEach { index, cusView in
+            let controller = UIViewController()
+            controller.view.frame = self.bounds
+            cusView.frame = self.bounds
+            controller.view.addSubview(cusView)
+            controlls.append(controller)
+            
+            setListener(for: cusView, at: index)
         }
     }
     
@@ -123,7 +146,7 @@ extension ZKBanner: UIPageViewControllerDelegate {
               DispatchQueue.main.async {
                   guard let weakSelf = self else { return }
                   weakSelf.tagIndex += 1
-                  if weakSelf.tagIndex > weakSelf.imageArr.count - 1 { // 最后一项
+                  if weakSelf.tagIndex > weakSelf.dataSource - 1 { // 最后一项
                       weakSelf.tagIndex = 0
                   }
                   
@@ -154,7 +177,7 @@ extension ZKBanner: UIPageViewControllerDataSource {
         
         //如果是第一个页面
         if(index==0){
-            index = imageArr.count - 1
+            index = dataSource - 1
             
         }else{
             index -= 1
@@ -167,7 +190,7 @@ extension ZKBanner: UIPageViewControllerDataSource {
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard var index = self.controlls.firstIndex(of: viewController) else { return nil}
         
-        if index == imageArr.count - 1 { // 最后一页
+        if index == dataSource - 1 { // 最后一页
             index = 0
         } else {
             index += 1
