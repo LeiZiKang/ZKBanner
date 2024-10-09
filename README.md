@@ -113,5 +113,5 @@ https://www.jianshu.com/p/ad8ec0781cd9
 
 ## TODO:
 
-- [ ] 纯swiftUI实现的轮播横幅
+- [x] 纯swiftUI实现的轮播横幅: https://github.com/LeiZiKang/ZKBannerSwiftUI
 
